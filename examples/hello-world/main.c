@@ -20,13 +20,20 @@
  */
 
 #include <stdio.h>
-
+#include "shell.h"
+void ps(void);
 int main(void)
 {
     puts("Hello World!");
 
     printf("You are running RIOT on a(n) %s board.\n", RIOT_BOARD);
     printf("This board features a(n) %s MCU.\n", RIOT_MCU);
+
+    /* start shell */
+    ps ();
+    puts("All up, running the shell now");
+    char line_buf[SHELL_DEFAULT_BUFSIZE];
+    shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
 
     return 0;
 }
