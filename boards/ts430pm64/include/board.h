@@ -58,7 +58,7 @@ extern "C" {
 /* LEDs ports MSB430 */
 #define LEDS_PxDIR P1DIR
 #define LEDS_PxOUT P1OUT
-#define LEDS_CONF_RED       0x10
+#define LEDS_CONF_RED       0x01
 //#define LEDS_CONF_GREEN     0x20
 //#define LEDS_CONF_BLUE      0x40
 
