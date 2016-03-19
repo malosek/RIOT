@@ -53,7 +53,7 @@ extern "C" {
 #define UART_NUMOF          (1U)
 #define UART_0_EN           (1U)
 
-#define UART_USE_USIC
+#define UART_USE_USCI
 #define UART_BASE           (USCI_0)
 #define UART_IE             (SFR->IE2)
 #define UART_IF             (SFR->IFG2)
