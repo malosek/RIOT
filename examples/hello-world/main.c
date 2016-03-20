@@ -24,8 +24,11 @@
 #include "thread.h"
 #include "xtimer.h"
 
-void ps(void);
+#include "net/ipv6/addr.h"
+#include "net/gnrc/netif.h"
+#include "net/gnrc/ipv6/netif.h"
 
+void ps(void);
 
 const char *blink_name = "blink";
 static char blink_stack [THREAD_STACKSIZE_DEFAULT];
@@ -48,6 +51,8 @@ static void *blink_function (void *arg)
 
 int main(void)
 {
+    kernel_pid_t ifs[GNRC_NETIF_NUMOF];
+
     puts("Hello World!");
 
     printf("You are running RIOT on a(n) %s board.\n", RIOT_BOARD);
@@ -61,6 +66,22 @@ int main(void)
 
     /* start shell */
     ps ();
+
+    /* get the first IPv6 interface and prints its address */
+    size_t numof = gnrc_netif_get(ifs);
+    if (numof > 0) {
+        gnrc_ipv6_netif_t *entry = gnrc_ipv6_netif_get(ifs[0]);
+        for (int i = 0; i < GNRC_IPV6_NETIF_ADDR_NUMOF; i++) {
+//            if ((ipv6_addr_is_link_local(&entry->addrs[i].addr)) && !(entry->addrs[i].flags & GNRC_IPV6_NETIF_ADDR_FLAGS_NON_UNICAST)) {
+                char ipv6_addr[IPV6_ADDR_MAX_STR_LEN];
+                ipv6_addr_to_str(ipv6_addr, &entry->addrs[i].addr, IPV6_ADDR_MAX_STR_LEN);
+                printf("My address is %s\n", ipv6_addr);
+  //          }
+        }
+    }
+
+
+
     puts("All up, running the shell now");
     char line_buf[SHELL_DEFAULT_BUFSIZE];
     shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
