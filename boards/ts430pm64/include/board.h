@@ -59,20 +59,21 @@ extern "C" {
 #define LEDS_PxDIR P1DIR
 #define LEDS_PxOUT P1OUT
 #define LEDS_CONF_RED       0x01
-//#define LEDS_CONF_GREEN     0x20
-//#define LEDS_CONF_BLUE      0x40
 
 #define LED_RED_ON          LEDS_PxOUT &=~LEDS_CONF_RED
 #define LED_RED_OFF         LEDS_PxOUT |= LEDS_CONF_RED
 #define LED_RED_TOGGLE      LEDS_PxOUT ^= LEDS_CONF_RED
 
-//#define LED_GREEN_ON        LEDS_PxOUT &=~LEDS_CONF_GREEN
-//#define LED_GREEN_OFF       LEDS_PxOUT |= LEDS_CONF_GREEN
-//#define LED_GREEN_TOGGLE    LEDS_PxOUT ^= LEDS_CONF_GREEN
-
-//#define LED_BLUE_ON         LEDS_PxOUT &=~LEDS_CONF_BLUE
-//#define LED_BLUE_OFF        LEDS_PxOUT |= LEDS_CONF_BLUE
-//#define LED_BLUE_TOGGLE     LEDS_PxOUT ^= LEDS_CONF_BLUE
+/**
+ * @name Define the interface to the AT86RF233 radio
+ * @{
+ */
+#define AT86RF2XX_PARAM_SPI         SPI_0
+#define AT86RF2XX_PARAM_CS          GPIO_PIN(P1,4)
+#define AT86RF2XX_PARAM_INT         GPIO_PIN(P1,6)
+#define AT86RF2XX_PARAM_RESET       GPIO_PIN(P1,5)
+#define AT86RF2XX_PARAM_SLEEP       GPIO_PIN(P1,2)
+#define AT86RF2XX_PARAM_SPI_SPEED   SPI_SPEED_5MHZ
 
 #ifdef __cplusplus
 }

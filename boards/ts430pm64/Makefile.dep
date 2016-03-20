@@ -1,1 +1,5 @@
-USEMODULE += xtimer
+ifneq (,$(filter gnrc_netif_default,$(USEMODULE)))
+  USEMODULE += at86rf233
+  USEMODULE += gnrc_nomac
+endif
+
