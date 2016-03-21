@@ -8,16 +8,18 @@ BOARD ?= native
 RIOTBASE ?= $(CURDIR)/../..
 
 # Add also the shell, some shell commands
-USEMODULE += shell
-USEMODULE += shell_commands
+#USEMODULE += shell
+#USEMODULE += shell_commands
 USEMODULE += ps
 
 USEMODULE += gnrc_netif_default
 USEMODULE += auto_init_gnrc_netif
 USEMODULE += gnrc_ipv6
 USEMODULE += gnrc_ndp
+USEMODULE += gnrc_ndp_node
 USEMODULE += gnrc_icmpv6_echo
-USEMODULE += prng_minstd
+USEMODULE += gnrc_sixlowpan_nd_router
+USEMODULE += gnrc_sixlowpan_iphc
 
 CFLAGS += -DGNRC_IPV6_NETIF_ADDR_NUMOF=4
 

@@ -82,9 +82,9 @@ int main(void)
 
 
 
-    puts("All up, running the shell now");
-    char line_buf[SHELL_DEFAULT_BUFSIZE];
-    shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
+//    puts("All up, running the shell now");
+//    char line_buf[SHELL_DEFAULT_BUFSIZE];
+//    shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);
 
     return 0;
 }
