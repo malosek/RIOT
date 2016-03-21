@@ -16,32 +16,32 @@ void uart_init(void);
 static void telosb_ports_init(void)
 {
     /* Port 1: GDO, Flash, BSL TX */
-    P1SEL = 0x02;    /* Port1 Select: 00000010 = 0x02 */
+    P1SEL = 0x00;    /* Port1 Select: 00000010 = 0x02 */
     P1OUT = 0x00;    /* Port1 Output: 00000000 = 0x00 */
-    P1DIR = 0x87;    /* Port1 Direction: 10000111 = 0x87 */
+    P1DIR = 0xBF;    /* Port1 Direction: 10000111 = 0x87 */
 
     /* Port 2: GPIO, BSL RX, 1wire */
-    P2SEL = 0x04;    /* Port2 Select: 00000100 = 0x04 */
+    P2SEL = 0x00;    /* Port2 Select: 00000100 = 0x04 */
     P2OUT = 0x00;    /* Port2 Output: 00000000 = 0x00 */
-    P2DIR = 0xFF;    /* Port2 Direction: 11111111 = 0xFF */
+    P2DIR = 0x1C;    /* Port2 Direction: 11111111 = 0xFF */
 
     /* Port 3: UART and SPI */
-    P3SEL = 0x0E;    /* Port3 Select: 11001110 = 0xCE */
+    P3SEL = 0x00;    /* Port3 Select: 11001110 = 0xCE */
     P3OUT = 0x00;    /* Port3 Output: 00000000 = 0x00 */
-    P3DIR = 0xFE;    /* Port3 Direction: 01001110 = 0x4E */
+    P3DIR = 0xDB;    /* Port3 Direction: 01001110 = 0x4E */
 
     /* Port 4: CS */
-    P4SEL = 0x02;    /* Port4 Select: 00000010 = 0x02 */
-    P4OUT = 0x04;    /* Port4 Output: 00000100 = 0x04 */
-    P4DIR = 0x64;    /* Port4 Direction: 01100100 = 0x64 */
+    P4SEL = 0x00;    /* Port4 Select: 00000010 = 0x02 */
+    P4OUT = 0x00;    /* Port4 Output: 00000100 = 0x04 */
+    P4DIR = 0xFF;    /* Port4 Direction: 01100100 = 0x64 */
 
     /* Port 5: SPI, LED */
     P5SEL = 0x00;    /* Port5 Select: 00000000 = 0x00 */
-    P5OUT = 0x70;    /* Port5 Output: 01110000 = 0x70 */
-    P5DIR = 0x70;    /* Port5 Direction: 01110000 = 0x70 */
+    P5OUT = 0x00;    /* Port5 Output: 01110000 = 0x70 */
+    P5DIR = 0xFF;    /* Port5 Direction: 01110000 = 0x70 */
 
 
-    P6SEL = 0xFF;    /* Port6 Select: 11111111 = 0xFF */
+    P6SEL = 0x00;    /* Port6 Select: 11111111 = 0xFF */
     P6OUT = 0x00;    /* Port6 Output: 00000000 = 0x00 */
     P6DIR = 0xFF;    /* Port6 Direction: 11111000 = 0xFF */
 
