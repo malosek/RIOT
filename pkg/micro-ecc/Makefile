@@ -4,10 +4,6 @@ PKG_VERSION=b6c0cdbe7d20af48b0c2a909a66ff00b093d1542
 PKG_DIR=$(CURDIR)
 PKG_BUILDDIR=$(BINDIR)/pkg/$(PKG_NAME)
 
-ifneq ($(RIOTBOARD),)
-include $(RIOTBOARD)/$(BOARD)/Makefile.include
-endif
-
 ifneq ($(RIOTBASE),)
 INCLUDES += -I$(RIOTBASE)/sys/include -I$(RIOTBASE)/sys/net/include \
 			-I$(RIOTBASE)/sys/posix/include
@@ -30,8 +26,7 @@ $(PKG_BUILDDIR)/Makefile: $(PKG_BUILDDIR)
 
 $(PKG_BUILDDIR):
 	mkdir -p $(BINDIR)/pkg && \
-	git clone $(PKG_URL) $@ && \
-		cd $@ && git reset --hard $(PKG_VERSION)
+	$(GITCACHE) clone "$(PKG_URL)" "$(PKG_VERSION)" "$(PKG_BUILDDIR)"
 
 clean::
 	rm -Rf $(PKG_BUILDDIR)
