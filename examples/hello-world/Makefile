@@ -12,7 +12,7 @@ RIOTBASE ?= $(CURDIR)/../..
 #USEMODULE += shell_commands
 USEMODULE += ps
 
-USEMODULE += gnrc_netif_default
+USEMODULE += gnrc_netdev_default
 USEMODULE += auto_init_gnrc_netif
 USEMODULE += gnrc_ipv6
 USEMODULE += gnrc_ndp
