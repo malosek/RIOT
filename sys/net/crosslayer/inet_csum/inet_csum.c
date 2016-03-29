@@ -45,7 +45,7 @@ uint16_t inet_csum_slice(uint16_t sum, const uint8_t *buf, uint16_t len, size_t 
     }
 
     for (int i = 0; i < (len >> 1); buf += 2, i++) {
-        csum += (uint16_t)((*buf << 8) + *(buf + 1));   /* group bytes by 16-byte words
+        csum += (uint16_t)(*buf << 8) + *(buf + 1);   /* group bytes by 16-byte words
                                              * and add them*/
     }
 
@@ -54,7 +54,7 @@ uint16_t inet_csum_slice(uint16_t sum, const uint8_t *buf, uint16_t len, size_t 
 
     while (csum >> 16) {
         uint16_t carry = csum >> 16;
-        csum = (uint16_t)(csum & 0xffff) + carry;
+        csum = (csum & 0xffff) + carry;
     }
 
     DEBUG("inet_sum: new sum = 0x%04" PRIx32 "\n", csum);
