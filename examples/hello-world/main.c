@@ -28,10 +28,14 @@
 #include "net/gnrc/netif.h"
 #include "net/gnrc/ipv6/netif.h"
 
+#include "si70xx.h"
+
 void ps(void);
 
 const char *blink_name = "blink";
 static char blink_stack [THREAD_STACKSIZE_DEFAULT];
+si70xx_t dev;
+
 
 static void *blink_function (void *arg)
 {
@@ -80,6 +84,22 @@ int main(void)
         }
     }
 
+    printf("Initializing sensor...");
+    if (si70xx_init(&dev, 0, 0) == 0) {
+        puts("[OK]\n");
+    }
+
+    printf("Testing sensor communication...");
+
+    if (si70xx_test(&dev) == 0) {
+        puts("[OK]\n");
+    }
+    else {
+        puts("[Failed]");
+    }
+
+    /* print device id */
+    printf("Identified sensor as the Si70%02i\n", si70xx_get_id(&dev));
 
 
 //    puts("All up, running the shell now");

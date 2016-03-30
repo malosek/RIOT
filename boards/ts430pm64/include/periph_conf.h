@@ -88,6 +88,15 @@ extern "C" {
 #define SPI_PIN_CLK         GPIO_PIN(P3,3)
 /** @} */
 
+#define I2C_NUMOF           (1U)
+#define I2C_0_EN            1
+#define I2C_APBCLK          (36000000U)
+
+#define I2C_BITBANG
+
+#define I2C_0_SCL_PIN       GPIO_PIN(PORT_B, 8)
+#define I2C_0_SDA_PIN       GPIO_PIN(PORT_B, 9)
+
 #ifdef __cplusplus
 }
 #endif

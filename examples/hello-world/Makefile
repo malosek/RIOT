@@ -21,6 +21,10 @@ USEMODULE += gnrc_icmpv6_echo
 USEMODULE += gnrc_sixlowpan_nd_router
 USEMODULE += gnrc_sixlowpan_iphc
 
+USEMODULE += saul_reg
+USEMODULE += saul_default
+USEMODULE += auto_init_saul
+
 CFLAGS += -DGNRC_IPV6_NETIF_ADDR_NUMOF=4
 
 ifneq (,$(filter native,$(BOARD)))

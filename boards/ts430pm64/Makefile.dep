@@ -3,3 +3,7 @@ ifneq (,$(filter gnrc_netdev_default,$(USEMODULE)))
   USEMODULE += gnrc_nomac
 endif
 
+ifneq (,$(filter saul_default,$(USEMODULE)))
+  USEMODULE += si70xx
+endif
+
