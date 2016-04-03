@@ -32,11 +32,6 @@
 extern "C" {
 #endif
 
-/*  for correct inclusion of <msp430.h> */
-#ifndef __MSP430F2618__
-#define __MSP430F2618__
-#endif
-
 /**
  * @brief   Xtimer configuration
  * @{
