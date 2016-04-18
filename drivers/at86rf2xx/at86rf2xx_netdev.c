@@ -21,6 +21,7 @@
  * @}
  */
 
+#include <string.h>
 #include <assert.h>
 #include <errno.h>
 
@@ -87,6 +88,9 @@ static int _init(netdev2_t *netdev)
         return -1;
     }
 
+#ifdef MODULE_NETSTATS_L2
+    memset(&netdev->stats, 0, sizeof(netstats_t));
+#endif
     /* reset device to default values and put it into RX state */
     at86rf2xx_reset(dev);
 
@@ -105,10 +109,13 @@ static int _send(netdev2_t *netdev, const struct iovec *vector, int count)
     for (int i = 0; i < count; i++, ptr++) {
         /* current packet data + FCS too long */
         if ((len + ptr->iov_len + 2) > AT86RF2XX_MAX_PKT_LENGTH) {
-            printf("[at86rf2xx] error: packet too large (%u byte) to be send\n",
-                   (unsigned)len + 2);
+            DEBUG("[at86rf2xx] error: packet too large (%u byte) to be send\n",
+                  (unsigned)len + 2);
             return -EOVERFLOW;
         }
+#ifdef MODULE_NETSTATS_L2
+        netdev->stats.tx_bytes += len;
+#endif
         len = at86rf2xx_tx_load(dev, ptr->iov_base, ptr->iov_len, len);
     }
 
@@ -141,6 +148,10 @@ static int _recv(netdev2_t *netdev, char *buf, int len, void *info)
         at86rf2xx_fb_stop(dev);
         return pkt_len;
     }
+#ifdef MODULE_NETSTATS_L2
+    netdev->stats.rx_count++;
+    netdev->stats.rx_bytes += pkt_len;
+#endif
     /* not enough space in buf */
     if (pkt_len > len) {
         at86rf2xx_fb_stop(dev);
@@ -613,7 +624,13 @@ static void _isr(netdev2_t *netdev)
         }
         else if (state == AT86RF2XX_STATE_TX_ARET_ON ||
                  state == AT86RF2XX_STATE_BUSY_TX_ARET) {
-            at86rf2xx_set_state(dev, dev->idle_state);
+            /* check for more pending TX calls and return to idle state if
+             * there are none */
+            assert(dev->pending_tx != 0);
+            if ((--dev->pending_tx) == 0) {
+                at86rf2xx_set_state(dev, dev->idle_state);
+            }
+
             DEBUG("[at86rf2xx] EVT - TX_END\n");
             DEBUG("[at86rf2xx] return to state 0x%x\n", dev->idle_state);
 
