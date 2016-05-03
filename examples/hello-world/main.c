@@ -34,8 +34,8 @@ void ps(void);
 
 const char *blink_name = "blink";
 static char blink_stack [THREAD_STACKSIZE_DEFAULT];
-si70xx_t dev;
-
+si70xx_t si;
+bool si_ok = false;
 
 static void *blink_function (void *arg)
 {
@@ -44,6 +44,11 @@ static void *blink_function (void *arg)
     while (1)
     {
         LED_RED_TOGGLE;
+
+        if (si_ok) {
+            int16_t T = si70xx_get_temperature(&si);
+            printf("%d.%02d\n", T/100, T % 100);
+        }
 
         xtimer_set_wakeup(&xtimer, 500000, thread_getpid());
 
@@ -55,12 +60,28 @@ static void *blink_function (void *arg)
 
 int main(void)
 {
-    kernel_pid_t ifs[GNRC_NETIF_NUMOF];
-
     puts("Hello World!");
 
     printf("You are running RIOT on a(n) %s board.\n", RIOT_BOARD);
     printf("This board features a(n) %s MCU.\n", RIOT_MCU);
+
+    printf("Initializing sensor...");
+    if (si70xx_init(&si, I2C_DEV(0), 0x40) == 0) {
+        puts("[OK]\n");
+    }
+
+    printf("Testing sensor communication...");
+
+    if (si70xx_test(&si) == 0) {
+        si_ok = true;
+        puts("[OK]\n");
+    }
+    else {
+        puts("[Failed]");
+    }
+
+    /* print device id */
+    printf("Identified sensor as the Si70%02i\n", si70xx_get_id(&si));
 
     /* create blink thread */
     thread_create(blink_stack, sizeof(blink_stack),
@@ -70,7 +91,8 @@ int main(void)
 
     /* start shell */
     ps ();
-
+#ifdef __PMA_NET__
+    kernel_pid_t ifs[GNRC_NETIF_NUMOF];
     /* get the first IPv6 interface and prints its address */
     size_t numof = gnrc_netif_get(ifs);
     if (numof > 0) {
@@ -83,25 +105,7 @@ int main(void)
   //          }
         }
     }
-
-    printf("Initializing sensor...");
-    if (si70xx_init(&dev, 0, 0) == 0) {
-        puts("[OK]\n");
-    }
-
-    printf("Testing sensor communication...");
-
-    if (si70xx_test(&dev) == 0) {
-        puts("[OK]\n");
-    }
-    else {
-        puts("[Failed]");
-    }
-
-    /* print device id */
-    printf("Identified sensor as the Si70%02i\n", si70xx_get_id(&dev));
-
-
+#endif
 //    puts("All up, running the shell now");
 //    char line_buf[SHELL_DEFAULT_BUFSIZE];
 //    shell_run(NULL, line_buf, SHELL_DEFAULT_BUFSIZE);

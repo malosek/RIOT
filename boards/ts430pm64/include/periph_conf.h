@@ -90,12 +90,11 @@ extern "C" {
 
 #define I2C_NUMOF           (1U)
 #define I2C_0_EN            1
-#define I2C_APBCLK          (36000000U)
 
-#define I2C_BITBANG
+#define I2C_SOFTWARE
 
-#define I2C_0_SCL_PIN       GPIO_PIN(PORT_B, 8)
-#define I2C_0_SDA_PIN       GPIO_PIN(PORT_B, 9)
+#define I2C_0_SCL_PIN       GPIO_PIN(P2, 0)
+#define I2C_0_SDA_PIN       GPIO_PIN(P2, 1)
 
 #ifdef __cplusplus
 }
